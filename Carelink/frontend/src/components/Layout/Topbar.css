@@ -1,0 +1,120 @@
+/* Topbar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  height: var(--topbar-height);
+  width: 100%;
+
+  background-color: var(--cl-white);
+  border-bottom: 1px solid var(--cl-gray-200);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Content wrapper */
+.topbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 100%;
+  width: 100%;
+
+  padding: 0 var(--space-6);
+}
+
+/* If you want OPTIONAL max-width + centered layout, uncomment:
+.topbar-content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+*/
+
+/* Title */
+.topbar-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--cl-gray-900);
+}
+
+/* Right area */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Authenticated user area */
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--cl-gray-900);
+}
+
+.user-role {
+  font-size: var(--text-xs);
+  color: var(--cl-gray-500);
+  text-transform: capitalize;
+}
+
+/* Buttons */
+.btn-logout,
+.btn-outline,
+.btn-primary {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Logout */
+.btn-logout {
+  background-color: var(--cl-gray-100);
+  color: var(--cl-gray-700);
+}
+
+.btn-logout:hover {
+  background-color: var(--cl-gray-200);
+}
+
+/* Auth buttons wrapper */
+.topbar-auth {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Outline */
+.btn-outline {
+  background-color: transparent;
+  color: var(--cl-primary);
+  border: 1px solid var(--cl-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--cl-primary-bg);
+}
+
+/* Primary */
+.btn-primary {
+  background-color: var(--cl-primary);
+  color: var(--cl-white);
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background-color: var(--cl-primary-dark);
+}

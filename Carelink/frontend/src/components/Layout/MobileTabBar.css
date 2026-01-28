@@ -1,0 +1,41 @@
+.mobile-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-tabbar-height);
+  background-color: var(--cl-white);
+  border-top: 1px solid var(--cl-gray-200);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  color: var(--cl-gray-500);
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.mobile-tab.active {
+  color: var(--cl-primary);
+}
+
+.mobile-tab-icon {
+  font-size: var(--text-xl);
+}
+
+.mobile-tab-label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+}
+

@@ -1,0 +1,295 @@
+/* Shop.css — White + Green theme (clean, modern, medical)
+   Drop-in replacement for your current Shop.css
+*/
+
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --card-2: #fbfbfe;
+  --border: rgba(15, 23, 42, 0.10);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  --text: #0f172a;      /* slate-900 (base text) */
+  --muted: #475569;     /* slate-600 */
+  --muted-2: #64748b;   /* slate-500 */
+
+  /* ✅ Green theme */
+  --brand: #16a34a;     /* primary green */
+  --brand-2: #22c55e;   /* lighter green accent */
+
+  --shadow: 0 10px 26px rgba(2, 6, 23, 0.08);
+  --shadow-soft: 0 6px 18px rgba(2, 6, 23, 0.06);
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
+
+  /* ✅ Green focus ring */
+  --ring: 0 0 0 4px rgba(22, 163, 74, 0.16);
+}
+
+.shop-page{
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 500px at 10% -10%, rgba(34,197,94,.12), transparent 55%),
+    radial-gradient(700px 420px at 100% 0%, rgba(22,163,74,.10), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg) 60%, #ffffff 100%);
+  padding: 40px 16px 64px;
+  color: var(--text);
+}
+
+.container{
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.page-title{
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand); /* ✅ green title */
+}
+
+.page-title::before{
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  box-shadow: 0 0 0 6px rgba(22,163,74,.10);
+}
+
+.shop-content{
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* Filters */
+.filters{
+  position: sticky;
+  top: 18px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.filters h3{
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--brand); /* ✅ green heading */
+}
+
+.filter-group{
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.filter-group label{
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--brand); /* ✅ green labels */
+}
+
+.filter-input{
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  border-radius: var(--radius-md);
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.filter-input::placeholder{
+  color: #94a3b8;
+}
+
+.filter-input:focus{
+  border-color: rgba(22,163,74,.60);
+  box-shadow: var(--ring);
+  transform: translateY(-1px);
+}
+
+/* Grid */
+.products-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* Empty state */
+.no-products{
+  grid-column: 1 / -1;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed rgba(22, 163, 74, 0.35);
+  background: rgba(255,255,255,0.86);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Cards */
+.product-card{
+  display: grid;
+  grid-template-rows: 180px auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(180deg, #ffffff, #fbfffc);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(0);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  position: relative;
+}
+
+.product-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 220px at 10% 0%, rgba(22,163,74,.12), transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.product-card:hover{
+  transform: translateY(-4px);
+  border-color: rgba(22,163,74,.35); /* ✅ green hover border */
+  box-shadow: var(--shadow);
+}
+
+.product-card:hover::after{
+  opacity: 1;
+}
+
+/* Image */
+.product-image{
+  background: #f3f4f6;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  display: grid;
+  place-items: center;
+}
+
+.product-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform .25s ease;
+}
+
+.product-card:hover .product-image img{
+  transform: scale(1.06);
+}
+
+.placeholder-image{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #166534; /* ✅ darker green */
+  font-weight: 900;
+  letter-spacing: .02em;
+  background:
+    radial-gradient(240px 160px at 30% 30%, rgba(34,197,94,.16), transparent 55%),
+    radial-gradient(240px 160px at 70% 70%, rgba(22,163,74,.14), transparent 55%),
+    #f3f4f6;
+}
+
+/* Info */
+.product-info{
+  padding: 14px 14px 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.product-name{
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--brand); /* ✅ green name */
+}
+
+.product-category{
+  margin: 0;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.product-price{
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.price{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 950;
+  color: var(--text);
+}
+
+.price::before{
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(22,163,74,.90);
+  box-shadow: 0 0 0 4px rgba(22,163,74,.12);
+}
+
+/* Loading */
+.loading{
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  color: var(--brand); /* ✅ green loading */
+  font-weight: 900;
+}
+
+/* Responsive */
+@media (max-width: 1100px){
+  .products-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px){
+  .shop-content{
+    grid-template-columns: 1fr;
+  }
+  .filters{
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 560px){
+  .products-grid{
+    grid-template-columns: 1fr;
+  }
+  .product-card{
+    grid-template-rows: 190px auto;
+  }
+}

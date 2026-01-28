@@ -1,0 +1,108 @@
+.hero {
+  background: linear-gradient(135deg, var(--luxaro-black) 0%, var(--luxaro-dark-gray) 100%);
+  padding: var(--spacing-2xl) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.hero-title {
+  font-size: 72px;
+  font-family: var(--font-primary);
+  color: var(--luxaro-gold);
+  margin-bottom: var(--spacing-md);
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+.hero-subtitle {
+  font-size: 24px;
+  color: var(--luxaro-white);
+  margin-bottom: var(--spacing-md);
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.hero-description {
+  font-size: 18px;
+  color: var(--luxaro-light-gray);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.8;
+}
+
+.btn-large {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.features {
+  padding: var(--spacing-2xl) 0;
+  background-color: var(--luxaro-dark-gray);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.feature-card {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: var(--luxaro-black);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--luxaro-gold);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-gold);
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-md);
+}
+
+.feature-card h3 {
+  color: var(--luxaro-gold);
+  margin-bottom: var(--spacing-sm);
+}
+
+.feature-card p {
+  color: var(--luxaro-light-gray);
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 48px;
+  }
+  
+  .hero-subtitle {
+    font-size: 20px;
+  }
+}
+
+
+

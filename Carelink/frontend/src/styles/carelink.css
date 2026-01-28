@@ -1,0 +1,87 @@
+:root{
+  /* Color palette - calm healthcare */
+  --color-bg: #f6fbfb;
+  --color-surface: #ffffff;
+  --color-primary: #0b7285; /* teal */
+  --color-primary-600: #075e66;
+  --color-accent: #17a2b8;
+  --color-muted: #6b7280;
+  --color-success: #198754;
+  --color-danger: #dc3545;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(11,114,133,0.06);
+  --shadow-md: 0 6px 18px rgba(11,114,133,0.08);
+
+  /* Typography */
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  background:var(--color-bg);
+  color:#042028;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* App layout */
+.app-shell{display:flex;min-height:100vh}
+.sidebar{width:260px;background:var(--color-surface);border-right:1px solid #e6f0f2;padding:var(--space-5);box-shadow:var(--shadow-sm);position:sticky;top:0;height:100vh}
+.main-area{flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:64px;background:transparent;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-4);border-bottom:1px solid rgba(4,32,40,0.04)}
+.content{padding:var(--space-5);max-width:1200px;margin:0 auto;width:100%}
+
+/* Sidebar nav */
+.brand{font-weight:700;color:var(--color-primary);font-size:var(--text-xl);margin-bottom:var(--space-4)}
+.nav-list{list-style:none;padding:0;margin:0}
+.nav-item{display:flex;align-items:center;padding:10px 12px;border-radius:8px;color:#022;cursor:pointer;margin-bottom:8px}
+.nav-item:hover{background:#f1fbfc}
+.nav-item.active{background:linear-gradient(90deg,var(--color-primary)10%,rgba(23,162,184,0.06));color:var(--color-primary-600)}
+
+/* Cards */
+.card{background:var(--color-surface);border-radius:var(--radius-md);padding:var(--space-4);box-shadow:var(--shadow-md);margin-bottom:var(--space-4)}
+.card-row{display:flex;gap:var(--space-4);align-items:center}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+.btn-primary{background:var(--color-primary);color:white}
+.btn-ghost{background:transparent;color:var(--color-primary);border:1px solid rgba(7,94,102,0.06)}
+
+/* Mobile tabbar */
+.mobile-tabbar{position:fixed;left:0;right:0;bottom:0;height:64px;background:var(--color-surface);border-top:1px solid #e6f0f2;display:flex;justify-content:space-around;align-items:center}
+
+/* Clinic components */
+.appointment-card{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbffff);border:1px solid rgba(7,94,102,0.04)}
+.appointment-info{display:flex;gap:12px;align-items:center}
+.doctor-avatar{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,var(--color-accent),#a0d8de);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+.status-chip{padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.status-pending{background:#fff3cd;color:#856404;border:1px solid rgba(0,0,0,0.02)}
+.status-booked{background:#e6fffa;color:#0b7285}
+.status-confirmed{background:#e6f9ed;color:#0b7a45}
+.status-cancelled{background:#fff0f0;color:#b02a37}
+
+@media (max-width:800px){
+  .sidebar{display:none}
+  .topbar{padding:0 12px}
+  .content{padding:16px}
+}

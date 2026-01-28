@@ -1,0 +1,364 @@
+/* CareLink Clinic Design System */
+
+:root {
+  /* Brand Colors - Healthcare/Calm Palette */
+  --cl-primary: #2563EB; /* Trust Blue */
+  --cl-primary-dark: #1E40AF;
+  --cl-primary-light: #3B82F6;
+  --cl-primary-bg: #EFF6FF;
+  
+  --cl-secondary: #059669; /* Health Green */
+  --cl-secondary-dark: #047857;
+  --cl-secondary-light: #10B981;
+  
+  --cl-accent: #7C3AED; /* Calm Purple */
+  --cl-accent-light: #A78BFA;
+  
+  /* Neutral Colors */
+  --cl-white: #FFFFFF;
+  --cl-gray-50: #F9FAFB;
+  --cl-gray-100: #F3F4F6;
+  --cl-gray-200: #E5E7EB;
+  --cl-gray-300: #D1D5DB;
+  --cl-gray-400: #9CA3AF;
+  --cl-gray-500: #6B7280;
+  --cl-gray-600: #4B5563;
+  --cl-gray-700: #374151;
+  --cl-gray-800: #1F2937;
+  --cl-gray-900: #111827;
+  
+  /* Status Colors - High Contrast */
+  --cl-success: #10B981;
+  --cl-success-bg: #D1FAE5;
+  --cl-error: #EF4444;
+  --cl-error-bg: #FEE2E2;
+  --cl-warning: #F59E0B;
+  --cl-warning-bg: #FEF3C7;
+  --cl-info: #3B82F6;
+  --cl-info-bg: #DBEAFE;
+  
+  /* Status-specific for appointments */
+  --cl-status-pending: #F59E0B;
+  --cl-status-booked: #3B82F6;
+  --cl-status-confirmed: #059669;
+  --cl-status-completed: #6B7280;
+  --cl-status-cancelled: #EF4444;
+  --cl-status-no-show: #DC2626;
+  
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* Spacing Scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;   /* 6px */
+  --radius-md: 0.5rem;     /* 8px */
+  --radius-lg: 0.75rem;    /* 12px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Layout */
+  --sidebar-width: 260px;
+  --topbar-height: 64px;
+  --mobile-tabbar-height: 64px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--cl-gray-900);
+  background-color: var(--cl-gray-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--cl-gray-900);
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+/* Links */
+a {
+  color: var(--cl-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--cl-primary-dark);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--cl-primary);
+  color: var(--cl-white);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--cl-primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--cl-secondary);
+  color: var(--cl-white);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--cl-secondary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--cl-primary);
+  border: 1.5px solid var(--cl-primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--cl-primary-bg);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--cl-gray-700);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--cl-gray-100);
+  color: var(--cl-gray-900);
+}
+
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-lg);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Cards */
+.card {
+  background-color: var(--cl-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--cl-gray-200);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--cl-gray-300);
+}
+
+.card-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--cl-gray-200);
+}
+
+.card-body {
+  padding: var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-6);
+  border-top: 1px solid var(--cl-gray-200);
+  background-color: var(--cl-gray-50);
+}
+
+/* Status Chips */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-chip-pending {
+  background-color: var(--cl-warning-bg);
+  color: var(--cl-status-pending);
+}
+
+.status-chip-booked {
+  background-color: var(--cl-info-bg);
+  color: var(--cl-status-booked);
+}
+
+.status-chip-confirmed {
+  background-color: var(--cl-success-bg);
+  color: var(--cl-status-confirmed);
+}
+
+.status-chip-completed {
+  background-color: var(--cl-gray-200);
+  color: var(--cl-gray-600);
+}
+
+.status-chip-cancelled {
+  background-color: var(--cl-error-bg);
+  color: var(--cl-status-cancelled);
+}
+
+.status-chip-no-show {
+  background-color: var(--cl-error-bg);
+  color: var(--cl-status-no-show);
+}
+
+/* Form Elements */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--cl-gray-900);
+  background-color: var(--cl-white);
+  border: 1.5px solid var(--cl-gray-300);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--cl-primary);
+  box-shadow: 0 0 0 3px var(--cl-primary-bg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--cl-gray-700);
+  margin-bottom: var(--space-2);
+}
+
+/* Utility Classes */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--space-6);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--cl-gray-200) 25%, var(--cl-gray-100) 50%, var(--cl-gray-200) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

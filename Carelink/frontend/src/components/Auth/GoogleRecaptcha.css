@@ -1,0 +1,26 @@
+.google-recaptcha-container {
+  margin: var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recaptcha-note {
+  font-size: 11px;
+  color: var(--carelink-medium-gray);
+  margin-top: var(--spacing-xs);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.recaptcha-note a {
+  color: var(--carelink-gold);
+  text-decoration: none;
+}
+
+.recaptcha-note a:hover {
+  text-decoration: underline;
+}
+
+
+
