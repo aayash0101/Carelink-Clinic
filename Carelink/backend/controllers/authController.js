@@ -92,7 +92,6 @@ const sendTokenResponse = async (user, token, req, res) => {
 
   return res.status(200).json({
     success: true,
-    // keep token in response for dev/testing; remove later if you want cookie-only
     token,
     data: {
       user: {
