@@ -115,10 +115,8 @@ app.use(
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb', parameterLimit: 50 }));
 
-// ✅ cookies BEFORE csrf verification reads them
 app.use(cookieParser());
 
-// Sanitization
 app.use(
   mongoSanitize({
     replaceWith: '_'
@@ -129,7 +127,6 @@ app.use(preventHPP);
 app.use(advancedInputSanitization);
 app.use(strictTypeValidation);
 
-// Compression
 app.use(compression({ level: 6 }));
 
 // Rate limiting (prod only)
