@@ -95,7 +95,7 @@ const PaymentFailure = () => {
           <div className="support-info">
             <p>Need help? Contact our support team:</p>
             <div className="support-links">
-              <a href="mailto:support@luxaro.com" className="support-link">
+              <a href="mailto:support@carelink.com" className="support-link">
                 📧 support@luxaro.com
               </a>
               <a href="tel:+9779800000000" className="support-link">
