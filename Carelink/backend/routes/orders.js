@@ -1,3 +1,7 @@
+console.log("ORDERS ROUTE LOADED");
+console.log("ordersController exports:", Object.keys(require("../controllers/orderController")));
+console.log("auth exports:", Object.keys(require("../middleware/auth")));
+
 const express = require('express');
 const router = express.Router();
 const {

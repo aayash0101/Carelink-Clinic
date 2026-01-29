@@ -8,7 +8,6 @@ const {
 } = require('../controllers/paymentController');
 const { protect } = require('../middleware/auth');
 
-// eSewa payment routes
 router.post('/esewa/initiate', protect, initiateEsewaPayment);
 router.post('/esewa/success', esewaSuccess);
 router.get('/esewa/success', esewaSuccess);
