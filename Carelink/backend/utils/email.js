@@ -65,7 +65,7 @@ exports.sendPasswordResetEmail = async (to, resetToken) => {
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #000000; color: #FFFFFF;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #D4AF37; margin: 0;">LUXARO</h1>
+        <h1 style="color: #D4AF37; margin: 0;">Carelink</h1>
       </div>
       <div style="background-color: #1A1A1A; padding: 30px; border-radius: 8px; border: 1px solid #D4AF37;">
         <h2 style="color: #D4AF37; margin-top: 0;">Password Reset Request</h2>

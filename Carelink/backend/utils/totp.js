@@ -9,8 +9,8 @@ const QRCode = require('qrcode');
  */
 exports.generateSecret = (email) => {
   const secret = speakeasy.generateSecret({
-    name: `Luxaro (${email})`,
-    issuer: 'Luxaro',
+    name: `Carelink (${email})`,
+    issuer: 'Carelink',
     length: 32
   });
 
