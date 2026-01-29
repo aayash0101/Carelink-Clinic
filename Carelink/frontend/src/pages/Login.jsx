@@ -71,7 +71,7 @@ const Login = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <label>Password</label>
                     {/* ✅ FORGOT PASSWORD LINK */}
-                    <Link to="/forgot-password" style={{ color: '#D4AF37', fontSize: '12px', textDecoration: 'none' }}>
+                    <Link to="/forgot-password" style={{ color: '#16a34a', fontSize: '12px', textDecoration: 'none' }}>
                       Forgot Password?
                     </Link>
                   </div>
@@ -111,7 +111,7 @@ const Login = () => {
           {step === 1 && (
             <div className="auth-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
               {/* ✅ REGISTER LINK */}
-              <p>Don't have an account? <Link to="/register" style={{ color: '#D4AF37', fontWeight: 'bold' }}>Sign Up</Link></p>
+              <p>Don't have an account? <Link to="/register" style={{ color: '#16a34a', fontWeight: 'bold' }}>Sign Up</Link></p>
             </div>
           )}
         </div>

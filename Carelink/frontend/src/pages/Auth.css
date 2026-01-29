@@ -1,42 +1,62 @@
+/* Auth.css — CareLink Clinic (White + Green) */
+
 .auth-page {
   min-height: calc(100vh - 200px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xl) 0;
+  padding: 48px 0;
+  background: #f3f7f5; /* soft clinic background */
 }
 
 .auth-container {
   width: 100%;
-  max-width: 450px;
-  padding: 0 var(--spacing-md);
+  max-width: 460px;
+  padding: 0 16px;
 }
 
 .auth-card {
-  background-color: var(--luxaro-dark-gray);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 12px;
-  padding: var(--spacing-2xl);
-  box-shadow: var(--shadow-lg);
+  background: #ffffff;
+  border: 1px solid #e6efea;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* top green accent bar */
+.auth-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 7px;
+  width: 100%;
+  background: linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #0ea44a 100%);
 }
 
 .auth-title {
   text-align: center;
-  margin-bottom: var(--spacing-sm);
-  color: var(--luxaro-gold);
-  font-size: 32px;
+  margin: 10px 0 6px;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
 }
 
 .auth-subtitle {
   text-align: center;
-  color: var(--luxaro-light-gray);
-  margin-bottom: var(--spacing-xl);
+  color: #64748b;
+  margin-bottom: 18px;
+  font-size: 14.5px;
+  line-height: 1.5;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 14px;
 }
 
 .auth-form .form-group {
@@ -45,43 +65,63 @@
 }
 
 .auth-form label {
-  margin-bottom: var(--spacing-sm);
-  color: var(--luxaro-white);
-  font-weight: 500;
+  margin-bottom: 8px;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 13px;
 }
 
 .auth-form input {
-  padding: var(--spacing-sm) var(--spacing-md);
-  background-color: var(--luxaro-black);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
-  color: var(--luxaro-white);
-  font-size: 16px;
-  transition: all 0.3s ease;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #0f172a;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  outline: none;
+}
+
+.auth-form input::placeholder {
+  color: #94a3b8;
 }
 
 .auth-form input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
-
-.auth-form input::placeholder {
-  color: var(--luxaro-medium-gray);
+/* nice spacing for buttons if you use .btn inside forms */
+.auth-form .btn {
+  margin-top: 6px;
 }
 
+/* footer */
 .auth-footer {
   text-align: center;
-  margin-top: var(--spacing-lg);
-  color: var(--luxaro-light-gray);
+  margin-top: 18px;
+  color: #64748b;
+  font-size: 13.5px;
 }
 
 .auth-footer a {
-  color: var(--luxaro-gold);
-  font-weight: 500;
+  color: #16a34a;
+  font-weight: 800;
+  text-decoration: none;
 }
 
 .auth-footer a:hover {
   text-decoration: underline;
 }
 
+/* Mobile tweaks */
+@media (max-width: 420px) {
+  .auth-card {
+    padding: 22px;
+    border-radius: 16px;
+  }
+  .auth-title {
+    font-size: 24px;
+  }
+}

@@ -38,22 +38,7 @@ const userSchema = new mongoose.Schema({
     default: 'patient'
   },
   // 🔧 FIX: Store encrypted phone, decrypt on query
-phone: {
-  type: String,
-  set: function(val) {
-    if (!val) return val;
-    
-    // ✅ BETTER: Check for exact encryption format (16-char hex IV : 16-char hex tag : encrypted data)
-    const encryptionPattern = /^[0-9a-f]{32}:[0-9a-f]{32}:[0-9a-f]+$/i;
-    
-    if (encryptionPattern.test(val)) {
-      // Already encrypted
-      return val;
-    }
-    
-    return encrypt(val);
-  }
-},
+
   isActive: {
     type: Boolean,
     default: true

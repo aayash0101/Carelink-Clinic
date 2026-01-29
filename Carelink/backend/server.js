@@ -111,7 +111,7 @@ app.use(
   })
 );
 
-// Body parsing
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb', parameterLimit: 50 }));
 
@@ -129,18 +129,17 @@ app.use(strictTypeValidation);
 
 app.use(compression({ level: 6 }));
 
-// Rate limiting (prod only)
+
 if (isProd) {
   app.use('/api/', dynamicRateLimiter);
 }
 
-// Input size validation
+
 app.use('/api/', validateInputSizes);
 
-// ✅ CSRF: issue csrf-token cookie on safe requests
+
 app.use('/api/', generateCSRFToken);
 
-// ✅ CSRF verify for unsafe methods EXCEPT auth endpoints
 app.use('/api/', (req, res, next) => {
   const p = req.path || '';
 

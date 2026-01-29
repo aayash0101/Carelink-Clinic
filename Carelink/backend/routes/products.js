@@ -21,11 +21,6 @@ console.log('PRODUCT CTRL exports:', Object.keys(ctrl));
 router.get('/', getProducts);
 router.get('/:id', getProduct);
 
-// Optional: if you expose /api/services somewhere else, ignore
-// router.get('/services', getServices);
-// router.get('/services/:id', getService);
-
-// Admin (NO upload middleware)
 router.post('/', protect, authorize('admin'), createProduct);
 router.patch('/:id', protect, authorize('admin'), updateProduct);
 router.delete('/:id', protect, authorize('admin'), deleteProduct);

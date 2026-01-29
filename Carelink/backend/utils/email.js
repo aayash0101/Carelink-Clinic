@@ -94,58 +94,106 @@ exports.sendPasswordResetEmail = async (to, resetToken) => {
 
 exports.sendVerificationEmail = async (to, url) => {
   const subject = 'Verify your Clinic Account';
-  const html = `
-    <div style="font-family: serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #000; color: #fff; border: 1px solid #D4AF37;">
-      <h1 style="color: #D4AF37; text-align: center;">Clinic Appointments</h1>
-      <div style="background-color: #1a1a1a; padding: 30px; border-radius: 8px; text-align: center;">
-        <h2 style="color: #D4AF37;">Welcome</h2>
-        <p>Please click the button below to verify your email address and activate your account.</p>
-        <a href="${url}" style="display: inline-block; background-color: #D4AF37; color: #000; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 4px; margin: 20px 0;">VERIFY ACCOUNT</a>
-        <p style="font-size: 12px; color: #888;">This link expires in 24 hours.</p>
-      </div>
-    </div>
-  `;
-  return await exports.sendEmail(to, subject, html, `Verify your account here: ${url}`);
-};
+ const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify your email</title>
+</head>
+<body style="margin:0;padding:0;background:#F3F7F5;font-family:Arial, Helvetica, sans-serif;color:#123;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F3F7F5;padding:24px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0"
+          style="max-width:600px;width:100%;background:#FFFFFF;border:1px solid #E6EFEA;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.06);">
 
-/**
- * Send appointment confirmation email
- */
-exports.sendAppointmentConfirmationEmail = async (to, appointmentData) => {
-  const { appointmentNumber, doctorName, departmentName, serviceName, scheduledAt, consultationFee } = appointmentData;
-  const scheduledDate = new Date(scheduledAt).toLocaleString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+          <!-- Top green bar -->
+          <tr>
+            <td style="background:linear-gradient(90deg,#1AAE5A 0%, #22C55E 50%, #16A34A 100%);height:8px;line-height:8px;font-size:0;">
+              &nbsp;
+            </td>
+          </tr>
 
-  const subject = 'Appointment Confirmed - Clinic Appointments';
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #000000; color: #FFFFFF;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #D4AF37; margin: 0;">Clinic Appointments</h1>
-      </div>
-      <div style="background-color: #1A1A1A; padding: 30px; border-radius: 8px; border: 1px solid #D4AF37;">
-        <h2 style="color: #D4AF37; margin-top: 0;">Appointment Confirmed</h2>
-        <p style="font-size: 16px; line-height: 1.6;">Your appointment has been successfully booked!</p>
-        
-        <div style="background-color: #000000; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <p style="margin: 10px 0;"><strong>Appointment Number:</strong> ${appointmentNumber}</p>
-          <p style="margin: 10px 0;"><strong>Doctor:</strong> ${doctorName}</p>
-          <p style="margin: 10px 0;"><strong>Department:</strong> ${departmentName}</p>
-          <p style="margin: 10px 0;"><strong>Service:</strong> ${serviceName}</p>
-          <p style="margin: 10px 0;"><strong>Date & Time:</strong> ${scheduledDate}</p>
-          <p style="margin: 10px 0;"><strong>Consultation Fee:</strong> Rs. ${consultationFee}</p>
-        </div>
-        
-        <p style="font-size: 14px; color: #E5E5E5;">Please arrive 10 minutes before your scheduled time.</p>
-        <p style="font-size: 12px; color: #4A4A4A; margin-top: 30px;">If you need to cancel or reschedule, please contact us at least 24 hours in advance.</p>
-      </div>
-    </div>
-  `;
+          <!-- Header -->
+          <tr>
+            <td style="padding:26px 28px 10px 28px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:#EAF7EF;border:1px solid #CDEEDB;display:flex;align-items:center;justify-content:center;">
+                  <span style="font-size:22px;line-height:1;">🩺</span>
+                </div>
+                <div>
+                  <div style="font-weight:800;font-size:18px;color:#0F172A;">CareLink Clinic</div>
+                  <div style="font-size:13px;color:#16A34A;font-weight:700;">Secure Account Verification</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Main -->
+          <tr>
+            <td style="padding:10px 28px 8px 28px;">
+              <h1 style="margin:0;font-size:22px;color:#0F172A;letter-spacing:-0.2px;">
+                Verify your email address
+              </h1>
+              <p style="margin:12px 0 0 0;font-size:14.5px;line-height:1.6;color:#334155;">
+                Thanks for signing up with <strong>CareLink Clinic</strong>. Please confirm your email to activate your account and securely access appointments and services.
+              </p>
+            </td>
+          </tr>
+
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding:18px 28px 10px 28px;">
+              <a href="${verifyUrl}"
+                 style="display:inline-block;background:#16A34A;color:#FFFFFF;text-decoration:none;font-weight:800;
+                        padding:12px 18px;border-radius:12px;font-size:14.5px;box-shadow:0 10px 18px rgba(22,163,74,0.22);">
+                Verify Email
+              </a>
+
+              <p style="margin:14px 0 0 0;font-size:12.5px;line-height:1.6;color:#64748B;">
+                This link may expire. If it doesn’t work, copy and paste the URL below into your browser.
+              </p>
+
+              <div style="margin-top:10px;padding:12px 12px;border-radius:12px;background:#F6FFFA;border:1px dashed #BFE6CD;">
+                <div style="font-size:12px;color:#0F172A;word-break:break-all;">
+                  ${verifyUrl}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Security note -->
+          <tr>
+            <td style="padding:14px 28px 8px 28px;">
+              <div style="border:1px solid #E6EFEA;background:#FBFEFC;border-radius:14px;padding:12px 14px;">
+                <div style="font-weight:800;color:#16A34A;font-size:13px;margin-bottom:6px;">Security Tip</div>
+                <div style="font-size:12.5px;line-height:1.6;color:#334155;">
+                  If you didn’t create a CareLink Clinic account, you can ignore this email. No changes will be made without verification.
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:18px 28px 26px 28px;color:#64748B;font-size:12px;line-height:1.6;">
+              <div style="border-top:1px solid #E6EFEA;padding-top:14px;">
+                <div style="margin-bottom:6px;">Need help? Reply to this email or contact support.</div>
+                <div style="color:#94A3B8;">© ${new Date().getFullYear()} CareLink Clinic. All rights reserved.</div>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
   const text = `Your appointment has been confirmed!\n\nAppointment Number: ${appointmentNumber}\nDoctor: ${doctorName}\nDepartment: ${departmentName}\nService: ${serviceName}\nDate & Time: ${scheduledDate}\nConsultation Fee: Rs. ${consultationFee}\n\nPlease arrive 10 minutes before your scheduled time.`;
   
   return await exports.sendEmail(to, subject, html, text);

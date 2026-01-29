@@ -1,4 +1,3 @@
-// backend/middleware/csrf.js
 const crypto = require('crypto');
 
 const tokens = new Map();

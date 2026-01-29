@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',        // ✅ always proxy
-  withCredentials: true,  // ✅ send cookies
+  baseURL: '/api',        
+  withCredentials: true,  
 });
 
 const getCookie = (name) => {
