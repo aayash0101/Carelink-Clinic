@@ -85,15 +85,8 @@ exports.sendPasswordResetEmail = async (to, resetToken) => {
 };
 
 
-
-
-
-
-
-
-
-exports.sendVerificationEmail = async (to, url) => {
-  const subject = 'Verify your Clinic Account';
+exports.sendVerificationEmail = async (to, verifyUrl) => {
+  const subject = "Verify your Clinic Account";
  const html = `
 <!DOCTYPE html>
 <html>
