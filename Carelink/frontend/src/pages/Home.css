@@ -1,6 +1,5 @@
 .hero {
-  background: linear-gradient(135deg, var(--luxaro-black) 0%, var(--luxaro-dark-gray) 100%);
-  padding: var(--spacing-2xl) 0;
+  
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -28,14 +27,12 @@
 .hero-title {
   font-size: 72px;
   font-family: var(--font-primary);
-  color: var(--luxaro-gold);
   margin-bottom: var(--spacing-md);
   text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
 }
 
 .hero-subtitle {
   font-size: 24px;
-  color: var(--luxaro-white);
   margin-bottom: var(--spacing-md);
   font-weight: 300;
   letter-spacing: 2px;
@@ -43,7 +40,6 @@
 
 .hero-description {
   font-size: 18px;
-  color: var(--luxaro-light-gray);
   margin-bottom: var(--spacing-xl);
   line-height: 1.8;
 }
@@ -56,7 +52,6 @@
 
 .features {
   padding: var(--spacing-2xl) 0;
-  background-color: var(--luxaro-dark-gray);
 }
 
 .features-grid {
@@ -68,30 +63,21 @@
 .feature-card {
   text-align: center;
   padding: var(--spacing-xl);
-  background-color: var(--luxaro-black);
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 8px;
   transition: all 0.3s ease;
 }
 
-.feature-card:hover {
-  border-color: var(--luxaro-gold);
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-gold);
-}
 
 .feature-icon {
   font-size: 48px;
   margin-bottom: var(--spacing-md);
 }
 
-.feature-card h3 {
-  color: var(--luxaro-gold);
-  margin-bottom: var(--spacing-sm);
-}
+
 
 .feature-card p {
-  color: var(--luxaro-light-gray);
+  color: var(---light-gray);
 }
 
 @media (max-width: 768px) {
