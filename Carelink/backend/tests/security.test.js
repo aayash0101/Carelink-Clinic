@@ -163,12 +163,11 @@
 
 
 
-// luxaro/backend/tests/security.test.js - SAFE VERSION
 const request = require('supertest');
 const mongoose = require('mongoose');
 
 // ✅ CRITICAL: Use SEPARATE test database
-const TEST_MONGODB_URI = process.env.TEST_MONGODB_URI || 'mongodb://localhost:27017/luxaro_test';
+const TEST_MONGODB_URI = process.env.TEST_MONGODB_URI || 'mongodb://localhost:27017/carelink_test';
 
 let app;
 let server;

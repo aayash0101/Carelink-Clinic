@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 exports.sendEmail = async (to, subject, html, text) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Luxaro" <${process.env.EMAIL_USER}>`,
+      from: `"Carelink" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,
@@ -34,11 +34,11 @@ exports.sendEmail = async (to, subject, html, text) => {
  * Send OTP email
  */
 exports.sendOTPEmail = async (to, otp) => {
-  const subject = 'Your LUXARO Verification Code';
+  const subject = 'Your Carelink Verification Code';
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #000000; color: #FFFFFF;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #D4AF37; margin: 0;">LUXARO</h1>
+        <h1 style="color: #D4AF37; margin: 0;">Carelink</h1>
       </div>
       <div style="background-color: #1A1A1A; padding: 30px; border-radius: 8px; border: 1px solid #D4AF37;">
         <h2 style="color: #D4AF37; margin-top: 0;">Verification Code</h2>
@@ -51,7 +51,7 @@ exports.sendOTPEmail = async (to, otp) => {
       </div>
     </div>
   `;
-  const text = `Your LUXARO verification code is: ${otp}. This code will expire in 10 minutes.`;
+  const text = `Your Carelink verification code is: ${otp}. This code will expire in 10 minutes.`;
   
   return await exports.sendEmail(to, subject, html, text);
 };
@@ -61,7 +61,7 @@ exports.sendOTPEmail = async (to, otp) => {
  */
 exports.sendPasswordResetEmail = async (to, resetToken) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-  const subject = 'Reset Your LUXARO Password';
+  const subject = 'Reset Your Carelink Password';
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #000000; color: #FFFFFF;">
       <div style="text-align: center; margin-bottom: 30px;">
