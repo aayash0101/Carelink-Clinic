@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Carelink API",
-    "description": "Complete API collection for Luxaro with security testing",
+    "description": "Complete API collection for Carelink with security testing",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
