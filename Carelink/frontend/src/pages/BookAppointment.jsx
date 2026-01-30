@@ -172,6 +172,9 @@ const BookAppointment = () => {
         throw new Error("Failed to initiate payment");
       }
 
+      // DEV-only: log eSewa form data so we can inspect exactly what is posted
+      if (import.meta.env.DEV) console.log('eSewa paymentData', paymentData);
+
       // 3) Submit eSewa form
       const form = document.createElement("form");
       form.method = "POST";
@@ -302,7 +305,7 @@ const BookAppointment = () => {
               disabled={loading || !selectedDoctor || !selectedDate || !selectedSlot}
               className="btn btn-primary btn-large"
             >
-              {loading ? "Processing..." : "Proceed to Payment"}
+              {loading ? "Processing..." : "Pay with eSewa"}
             </button>
           </div>
         </div>
