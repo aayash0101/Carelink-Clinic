@@ -85,9 +85,12 @@ exports.sendPasswordResetEmail = async (to, resetToken) => {
 };
 
 
+// wherever your email utils live (e.g., backend/utils/email.js)
+
 exports.sendVerificationEmail = async (to, verifyUrl) => {
   const subject = "Verify your Clinic Account";
- const html = `
+
+  const html = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,14 +105,12 @@ exports.sendVerificationEmail = async (to, verifyUrl) => {
         <table width="600" cellpadding="0" cellspacing="0"
           style="max-width:600px;width:100%;background:#FFFFFF;border:1px solid #E6EFEA;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.06);">
 
-          <!-- Top green bar -->
           <tr>
             <td style="background:linear-gradient(90deg,#1AAE5A 0%, #22C55E 50%, #16A34A 100%);height:8px;line-height:8px;font-size:0;">
               &nbsp;
             </td>
           </tr>
 
-          <!-- Header -->
           <tr>
             <td style="padding:26px 28px 10px 28px;">
               <div style="display:flex;align-items:center;gap:12px;">
@@ -124,19 +125,17 @@ exports.sendVerificationEmail = async (to, verifyUrl) => {
             </td>
           </tr>
 
-          <!-- Main -->
           <tr>
             <td style="padding:10px 28px 8px 28px;">
               <h1 style="margin:0;font-size:22px;color:#0F172A;letter-spacing:-0.2px;">
                 Verify your email address
               </h1>
               <p style="margin:12px 0 0 0;font-size:14.5px;line-height:1.6;color:#334155;">
-                Thanks for signing up with <strong>CareLink Clinic</strong>. Please confirm your email to activate your account and securely access appointments and services.
+                Thanks for signing up with <strong>CareLink Clinic</strong>. Please confirm your email to activate your account.
               </p>
             </td>
           </tr>
 
-          <!-- CTA Button -->
           <tr>
             <td style="padding:18px 28px 10px 28px;">
               <a href="${verifyUrl}"
@@ -146,7 +145,7 @@ exports.sendVerificationEmail = async (to, verifyUrl) => {
               </a>
 
               <p style="margin:14px 0 0 0;font-size:12.5px;line-height:1.6;color:#64748B;">
-                This link may expire. If it doesn’t work, copy and paste the URL below into your browser.
+                If the button doesn’t work, copy and paste this URL into your browser:
               </p>
 
               <div style="margin-top:10px;padding:12px 12px;border-radius:12px;background:#F6FFFA;border:1px dashed #BFE6CD;">
@@ -157,24 +156,11 @@ exports.sendVerificationEmail = async (to, verifyUrl) => {
             </td>
           </tr>
 
-          <!-- Security note -->
-          <tr>
-            <td style="padding:14px 28px 8px 28px;">
-              <div style="border:1px solid #E6EFEA;background:#FBFEFC;border-radius:14px;padding:12px 14px;">
-                <div style="font-weight:800;color:#16A34A;font-size:13px;margin-bottom:6px;">Security Tip</div>
-                <div style="font-size:12.5px;line-height:1.6;color:#334155;">
-                  If you didn’t create a CareLink Clinic account, you can ignore this email. No changes will be made without verification.
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Footer -->
           <tr>
             <td style="padding:18px 28px 26px 28px;color:#64748B;font-size:12px;line-height:1.6;">
               <div style="border-top:1px solid #E6EFEA;padding-top:14px;">
-                <div style="margin-bottom:6px;">Need help? Reply to this email or contact support.</div>
-                <div style="color:#94A3B8;">© ${new Date().getFullYear()} CareLink Clinic. All rights reserved.</div>
+                <div style="margin-bottom:6px;">If you didn’t create this account, ignore this email.</div>
+                <div style="color:#94A3B8;">© ${new Date().getFullYear()} CareLink Clinic</div>
               </div>
             </td>
           </tr>
@@ -187,8 +173,8 @@ exports.sendVerificationEmail = async (to, verifyUrl) => {
 </html>
 `;
 
-  const text = `Your appointment has been confirmed!\n\nAppointment Number: ${appointmentNumber}\nDoctor: ${doctorName}\nDepartment: ${departmentName}\nService: ${serviceName}\nDate & Time: ${scheduledDate}\nConsultation Fee: Rs. ${consultationFee}\n\nPlease arrive 10 minutes before your scheduled time.`;
-  
+  const text = `Verify your CareLink Clinic account: ${verifyUrl}`;
+
   return await exports.sendEmail(to, subject, html, text);
 };
 

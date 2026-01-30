@@ -1,55 +1,62 @@
-const DoctorProfile = require('../models/DoctorProfile');
-const User = require('../models/User');
-const Category = require('../models/Category'); // Department model
-const mongoose = require('mongoose');
-const { logSecurityEvent } = require('../utils/logger');
+// backend/controllers/doctorController.js
+const DoctorProfile = require("../models/DoctorProfile");
+const mongoose = require("mongoose");
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// @desc    Get doctors (optionally filtered by department)
+// @desc    Get doctors (optionally filtered by department/category)
 // @route   GET /api/doctors
 // @access  Public
 exports.getDoctors = async (req, res) => {
   try {
-    const { department } = req.query;
-    
+    // frontend currently sends ?category=<id>
+    // existing backend used ?department=<id>
+    const department = req.query.department || req.query.category;
+
     const query = { isActive: true };
-    
+
     if (department) {
       if (!isValidObjectId(department)) {
-        return res.status(400).json({ success: false, message: 'Invalid department ID' });
+        return res.status(400).json({
+          success: false,
+          message: "Invalid department/category ID",
+        });
       }
+      // DoctorProfile uses departmentId
       query.departmentId = department;
     }
 
     const doctorProfiles = await DoctorProfile.find(query)
-      .populate('userId', 'name email')
-      .populate('departmentId', 'name slug')
-      .select('-__v')
+      .populate("userId", "name email")
+      .populate("departmentId", "name slug")
+      .select("-__v")
       .lean();
 
-    // Format response
-    const doctors = doctorProfiles.map(profile => ({
-      _id: profile.userId._id,
-      name: profile.userId.name,
-      email: profile.userId.email,
-      department: {
-        _id: profile.departmentId._id,
-        name: profile.departmentId.name
-      },
-      qualifications: profile.qualifications,
-      experienceYears: profile.experienceYears,
-      consultationFee: profile.consultationFee,
-      availability: profile.availability
-    }));
+    // Filter out broken profiles safely (prevents _id crash)
+    const doctors = doctorProfiles
+      .filter((p) => p.userId && p.departmentId)
+      .map((p) => ({
+        _id: p.userId._id,
+        name: p.userId.name,
+        email: p.userId.email,
+        department: {
+          _id: p.departmentId._id,
+          name: p.departmentId.name,
+          slug: p.departmentId.slug,
+        },
+        qualifications: p.qualifications || "",
+        experienceYears: p.experienceYears || 0,
+        consultationFee: p.consultationFee || 0,
+        availability: p.availability || null,
+      }));
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: { doctors }
+      data: { doctors },
     });
   } catch (error) {
-    console.error('Get doctors error:', error);
-    res.status(500).json({ success: false, message: 'Server Error' });
+    console.error("Get doctors error:", error);
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 
@@ -59,40 +66,42 @@ exports.getDoctors = async (req, res) => {
 exports.getDoctor = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!isValidObjectId(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid ID' });
+      return res.status(400).json({ success: false, message: "Invalid doctor ID" });
     }
 
-    const doctorProfile = await DoctorProfile.findOne({ 
-      userId: id, 
-      isActive: true 
-    })
-      .populate('userId', 'name email')
-      .populate('departmentId', 'name slug')
+    // Here, :id is a USER id because you return _id: profile.userId._id
+    const profile = await DoctorProfile.findOne({ userId: id, isActive: true })
+      .populate("userId", "name email")
+      .populate("departmentId", "name slug")
+      .select("-__v")
       .lean();
 
-    if (!doctorProfile) {
-      return res.status(404).json({ success: false, message: 'Doctor not found' });
+    if (!profile || !profile.userId || !profile.departmentId) {
+      return res.status(404).json({ success: false, message: "Doctor not found" });
     }
 
-    const doctor = {
-      _id: doctorProfile.userId._id,
-      name: doctorProfile.userId.name,
-      email: doctorProfile.userId.email,
-      department: {
-        _id: doctorProfile.departmentId._id,
-        name: doctorProfile.departmentId.name
+    return res.status(200).json({
+      success: true,
+      data: {
+        doctor: {
+          _id: profile.userId._id,
+          name: profile.userId.name,
+          email: profile.userId.email,
+          department: {
+            _id: profile.departmentId._id,
+            name: profile.departmentId.name,
+            slug: profile.departmentId.slug,
+          },
+          qualifications: profile.qualifications || "",
+          experienceYears: profile.experienceYears || 0,
+          consultationFee: profile.consultationFee || 0,
+          availability: profile.availability || null,
+        },
       },
-      qualifications: doctorProfile.qualifications,
-      experienceYears: doctorProfile.experienceYears,
-      consultationFee: doctorProfile.consultationFee,
-      availability: doctorProfile.availability
-    };
-
-    res.status(200).json({ success: true, data: { doctor } });
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server Error' });
+    console.error("Get doctor error:", error);
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-

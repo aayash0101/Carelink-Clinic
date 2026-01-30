@@ -7,17 +7,9 @@ const auth = require('../middleware/auth');
 const {
   getPublicDepartments,
   createDepartment,
-  updateDepartment,
-  deleteDepartment,
 } = ctrl;
 
-const { protect, authorize } = auth;
-
 router.get('/', getPublicDepartments);
-
-
-router.post('/', protect, authorize('admin'), createDepartment);
-router.patch('/:id', protect, authorize('admin'), updateDepartment);
-router.delete('/:id', protect, authorize('admin'), deleteDepartment);
+router.post('/', auth.protect, auth.authorize('admin'), createDepartment);
 
 module.exports = router;

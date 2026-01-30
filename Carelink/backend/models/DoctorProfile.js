@@ -41,6 +41,7 @@ const doctorProfileSchema = new mongoose.Schema({
   },
   consultationFee: {
     type: Number,
+    required: [true, 'Consultation fee is required'],
     min: [0, 'Consultation fee cannot be negative'],
     max: [100000, 'Consultation fee too high'],
     validate: {
@@ -48,40 +49,6 @@ const doctorProfileSchema = new mongoose.Schema({
         return !v || Number.isFinite(v);
       },
       message: 'Invalid consultation fee'
-    }
-  },
-  availability: {
-    // Simple availability config: days of week and time slots
-    days: {
-      type: [String],
-      enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-      default: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-    },
-    startTime: {
-      type: String,
-      default: '09:00',
-      validate: {
-        validator: function(v) {
-          return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v);
-        },
-        message: 'Invalid time format (HH:MM)'
-      }
-    },
-    endTime: {
-      type: String,
-      default: '17:00',
-      validate: {
-        validator: function(v) {
-          return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v);
-        },
-        message: 'Invalid time format (HH:MM)'
-      }
-    },
-    slotDuration: {
-      type: Number,
-      default: 30,
-      min: [15, 'Slot duration must be at least 15 minutes'],
-      max: [120, 'Slot duration cannot exceed 120 minutes']
     }
   },
   isActive: {
