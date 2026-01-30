@@ -51,6 +51,36 @@ const doctorProfileSchema = new mongoose.Schema({
       message: 'Invalid consultation fee'
     }
   },
+  availability: {
+    days: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: (arr) => Array.isArray(arr) && arr.every(d => ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].includes(d)),
+        message: 'Invalid availability days'
+      }
+    },
+    startTime: { 
+      type: String, 
+      default: '09:00', 
+      match: [/^([01]\d|2[0-3]):[0-5]\d$/, 'Start time must be in HH:mm format'] 
+    },
+    endTime:   { 
+      type: String, 
+      default: '17:00', 
+      match: [/^([01]\d|2[0-3]):[0-5]\d$/, 'End time must be in HH:mm format'] 
+    },
+    slotDuration: { 
+      type: Number, 
+      default: 30, 
+      min: 15, 
+      max: 240, 
+      validate: { 
+        validator: Number.isInteger, 
+        message: 'slotDuration must be an integer' 
+      } 
+    }
+  },
   isActive: {
     type: Boolean,
     default: true,
@@ -64,6 +94,21 @@ const doctorProfileSchema = new mongoose.Schema({
 // Indexes
 doctorProfileSchema.index({ departmentId: 1, isActive: 1 });
 doctorProfileSchema.index({ userId: 1 });
+
+// Validate that endTime > startTime
+doctorProfileSchema.pre('validate', function(next) {
+  if (this.availability && this.availability.startTime && this.availability.endTime) {
+    const [startH, startM] = this.availability.startTime.split(':').map(Number);
+    const [endH, endM] = this.availability.endTime.split(':').map(Number);
+    const startMinutes = startH * 60 + startM;
+    const endMinutes = endH * 60 + endM;
+    
+    if (endMinutes <= startMinutes) {
+      return next(new Error('End time must be after start time'));
+    }
+  }
+  next();
+});
 
 // Pre-save validation
 doctorProfileSchema.pre('save', function(next) {

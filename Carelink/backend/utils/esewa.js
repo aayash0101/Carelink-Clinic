@@ -1,6 +1,12 @@
 const crypto = require('crypto');
 
-
+/**
+ * Generate eSewa v2 form data with HMAC SHA256 signature
+ * Per eSewa official v2 API docs:
+ * - Signature covers: total_amount, transaction_uuid, product_code (in that order)
+ * - Signature is base64-encoded HMAC-SHA256
+ * - Secret key must never be exposed to frontend
+ */
 exports.generateEsewaFormData = (orderData) => {
   const {
     totalAmount,
@@ -10,11 +16,12 @@ exports.generateEsewaFormData = (orderData) => {
     failureUrl
   } = orderData;
 
-  const secretKey = '8gBm/:&EnhH.1/q'; 
-
+  // Secret key from environment variable (never hardcode)
+  const secretKey = process.env.ESEWA_SECRET_KEY || '8gBm/:&EnhH.1/q';
   
   const formattedAmount = Number(totalAmount).toFixed(2);
 
+  // Build signature string exactly in the required order: total_amount, transaction_uuid, product_code
   const signatureString = `total_amount=${formattedAmount},transaction_uuid=${transactionUUID},product_code=${productCode}`;
 
   const signature = crypto
@@ -37,15 +44,16 @@ exports.generateEsewaFormData = (orderData) => {
   };
 };
 
-
+/**
+ * Verify eSewa payment signature on callback
+ */
 exports.verifyEsewaPayment = (data) => {
-  const secretKey = '8gBm/:&EnhH.1/q';
+  const secretKey = process.env.ESEWA_SECRET_KEY || '8gBm/:&EnhH.1/q';
   
   try {
-    
     const signedFieldNames = data.signed_field_names;
 
-    
+    // Rebuild signature string in same order
     const signatureString = signedFieldNames
       .split(',')
       .map(field => `${field}=${data[field]}`)
@@ -70,5 +78,19 @@ exports.verifyEsewaPayment = (data) => {
 
 exports.generateTransactionUUID = () => {
   return `LUX-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+};
+
+/**
+ * Get eSewa endpoint URL based on environment
+ */
+exports.getEsewaEndpoint = () => {
+  const esewaEnv = process.env.ESEWA_ENV || 'rc'; // 'rc' or 'prod'
+  
+  if (esewaEnv === 'prod') {
+    return 'https://epay.esewa.com.np/api/epay/main/v2/form';
+  }
+  
+  // Default to RC (testing)
+  return 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';
 };
 

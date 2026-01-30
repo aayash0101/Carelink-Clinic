@@ -27,7 +27,8 @@ export const AuthProvider = ({ children }) => {
       if (data.success) setUser(data.data.user);
       else setUser(null);
     } catch (error) {
-      // 401 or any error: user not authenticated
+      // 401 (not logged in) or any error: user not authenticated (expected on first load)
+      // Silently handle, do not log to console
       setUser(null);
     } finally {
       setLoading(false);

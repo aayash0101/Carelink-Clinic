@@ -45,7 +45,7 @@ const Login = () => {
     } else if (result.requiresRecaptcha) {
       setRequiresRecaptcha(true);
       setRecaptchaToken(null);
-      if (window.grecaptcha) window.grecaptcha.reset(); 
+      if (window.grecaptcha?.reset && typeof window.grecaptcha.reset === 'function') window.grecaptcha.reset(); 
       toast.warning('Security check required');
     }
   };

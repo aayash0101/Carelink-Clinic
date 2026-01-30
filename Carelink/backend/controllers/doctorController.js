@@ -105,3 +105,56 @@ exports.getDoctor = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+// @desc    Update doctor availability
+// @route   PUT /api/doctors/:userId/availability
+// @access  Private (admin)
+exports.updateDoctorAvailability = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { days, startTime, endTime, slotDuration } = req.body;
+
+    if (!isValidObjectId(userId)) {
+      return res.status(400).json({ success: false, message: 'Invalid user ID' });
+    }
+
+    // Validate days
+    if (!Array.isArray(days) || !days.every(d => ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].includes(d))) {
+      return res.status(400).json({ success: false, message: 'Invalid days array' });
+    }
+
+    // Validate times
+    const timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
+    if (!timeRegex.test(startTime) || !timeRegex.test(endTime)) {
+      return res.status(400).json({ success: false, message: 'Invalid time format. Use HH:mm' });
+    }
+
+    // Validate slotDuration
+    if (!Number.isInteger(slotDuration) || slotDuration < 15 || slotDuration > 240) {
+      return res.status(400).json({ success: false, message: 'Slot duration must be integer between 15-240 minutes' });
+    }
+
+    const doctorProfile = await DoctorProfile.findOne({ userId, isActive: true });
+    if (!doctorProfile) {
+      return res.status(404).json({ success: false, message: 'Doctor not found' });
+    }
+
+    // Update availability
+    doctorProfile.availability = {
+      days,
+      startTime,
+      endTime,
+      slotDuration
+    };
+
+    await doctorProfile.save();
+
+    return res.status(200).json({
+      success: true,
+      data: { doctor: { _id: doctorProfile.userId, availability: doctorProfile.availability } }
+    });
+  } catch (error) {
+    console.error('Update availability error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+}

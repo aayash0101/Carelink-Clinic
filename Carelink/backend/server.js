@@ -19,7 +19,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const path = require('path');
 const compression = require('compression');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const {
   dynamicRateLimiter,
@@ -205,25 +205,18 @@ app.use((err, req, res, next) => {
 // DB + server
 const PORT = process.env.PORT || 5000;
 
-const mongoUri = process.env.MONGODB_URI;
+const connectDB = require('./config/db');
 
-console.log("🔎 NODE_ENV =", process.env.NODE_ENV);
-console.log("🔎 MONGODB_URI =", process.env.MONGODB_URI);
-
-mongoose
-  .connect(mongoUri, {
-    serverSelectionTimeoutMS: 5000
-  })
+connectDB()
   .then(() => {
-    console.log('✅ MongoDB Connected:', mongoose.connection.host);
     const server = app.listen(PORT, () => {
       console.log(`✅ Server running on port ${PORT}`);
     });
-    
+
     server.on('error', (err) => {
       console.error('❌ Server error:', err);
     });
-    
+
     server.on('clientError', (err, socket) => {
       console.error('❌ Client error:', err.message);
       try {
@@ -241,17 +234,3 @@ mongoose
   });
 
 module.exports = app;
-
-// MongoDB connection handling
-const connectDB = async () => {
-  try {
-    const uri = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost:27017/carelink';
-    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log(`✅ Connected to MongoDB at ${uri.replace(/(mongodb:\/\/.*:)(.*)(@.*)/, '$1****$3')}`);
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    process.exit(1);
-  }
-};
-
-connectDB();
