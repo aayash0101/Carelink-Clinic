@@ -22,11 +22,10 @@ const safeUUID = () => {
 };
 
 api.interceptors.request.use((config) => {
-  // ✅ CSRF: server sets cookie "csrf-token" on GET /api/* (your middleware does that)
   const csrfToken = getCookie('csrf-token');
   if (csrfToken) config.headers['X-CSRF-Token'] = csrfToken;
 
-  // ✅ request tracing headers (your backend expects them in allowedHeaders)
+  
   config.headers['X-Timestamp'] = Date.now().toString();
   config.headers['X-Request-ID'] = safeUUID();
 

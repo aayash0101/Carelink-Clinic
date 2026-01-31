@@ -172,9 +172,6 @@ const BookAppointment = () => {
         throw new Error("Failed to initiate payment");
       }
 
-      // DEV-only: log eSewa form data so we can inspect exactly what is posted
-      if (import.meta.env.DEV) console.log('eSewa paymentData', paymentData);
-
       // 3) Submit eSewa form
       const form = document.createElement("form");
       form.method = "POST";
