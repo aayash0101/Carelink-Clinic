@@ -121,6 +121,8 @@ export default function ClinicAppointments() {
  * Card expects: doctor, department, datetime, status
  */
 function normalizeForCard(apt) {
+  const id = apt?._id || apt?.id
+
   const doctorName =
     apt?.doctorId?.name ||
     apt?.doctor?.name ||
@@ -146,10 +148,13 @@ function normalizeForCard(apt) {
       : 'N/A'
 
   return {
+    id,          // ✅ add this
+    _id: id,     // ✅ and this (covers both styles)
     doctor: doctorName,
     department: departmentName,
     datetime,
     status: apt?.status || 'unknown',
+    scheduledAt: apt?.scheduledAt, // ✅ often useful for view pages
     _raw: apt
   }
 }

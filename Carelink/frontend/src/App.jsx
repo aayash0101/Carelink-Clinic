@@ -25,6 +25,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import VerifyEmail from './pages/VerifyEmail'
 import ProfilePage from './pages/ProfilePage'
 import DoctorSchedule from './pages/DoctorSchedule'
+import AppointmentDetails from './pages/AppointmentDetails'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailure from './pages/PaymentFailure'
 import NotFound from './pages/NotFound'
@@ -53,6 +54,7 @@ function App() {
               <Route path="/book" element={<Navigate to="/services" replace />} />
               <Route path="/book/:id" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
               <Route path="/appointments" element={<ProtectedRoute><ClinicAppointments /></ProtectedRoute>} />
+              <Route path="/appointments/:id" element={<ProtectedRoute><AppointmentDetails /></ProtectedRoute>} />
               <Route path="/doctors" element={<ProtectedRoute><Doctors /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/payment/success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
