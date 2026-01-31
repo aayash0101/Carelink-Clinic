@@ -26,9 +26,9 @@ exports.createAppointment = async (req, res) => {
     }
 
     // Verify doctor exists and is active
-    const doctorProfile = await DoctorProfile.findOne({ 
-      userId: doctorId, 
-      isActive: true 
+    const doctorProfile = await DoctorProfile.findOne({
+      userId: doctorId,
+      isActive: true
     }).populate('departmentId');
 
     if (!doctorProfile) {
@@ -147,7 +147,7 @@ exports.getDoctorAppointments = async (req, res) => {
 
 // @desc    Update appointment status
 // @route   PATCH /api/appointments/:id/status
-// @access  Protected (doctor/admin)
+// @access  Protected (doctor/admin/patient)
 exports.updateAppointmentStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -167,8 +167,52 @@ exports.updateAppointmentStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Appointment not found' });
     }
 
-    // ✅ doctor can only update their own appointments
-    if (req.user.role === 'doctor' && appointment.doctorId.toString() !== req.user._id.toString()) {
+    // Authorization logic
+    const isPatient = req.user.role === 'patient';
+    const isDoctor = req.user.role === 'doctor';
+    const isAdmin = req.user.role === 'admin';
+
+    // 1. Patient: Can ONLY cancel their OWN appointment
+    if (isPatient) {
+      if (appointment.patientId.toString() !== req.user._id.toString()) {
+        logSecurityEvent('UNAUTHORIZED_APPOINTMENT_UPDATE', {
+          userId: req.user._id,
+          appointmentId: id,
+          ip: req.ip,
+          reason: 'Patient attempted to update others appointment'
+        });
+        return res.status(403).json({ success: false, message: 'Access denied' });
+      }
+
+      if (status !== 'cancelled') {
+        logSecurityEvent('UNAUTHORIZED_APPOINTMENT_UPDATE', {
+          userId: req.user._id,
+          appointmentId: id,
+          ip: req.ip,
+          reason: 'Patient attempted to set status other than cancelled'
+        });
+        return res.status(403).json({ success: false, message: 'Patients can only cancel appointments' });
+      }
+
+      if (appointment.status === 'completed') {
+        return res.status(400).json({ success: false, message: 'Completed appointments cannot be cancelled' });
+      }
+
+      // If already cancelled, return success (idempotent)
+      if (appointment.status === 'cancelled') {
+        return res.status(200).json({ success: true, data: { appointment } });
+      }
+
+      // Patients cannot update notes
+      if (notes) {
+        // Silently ignore or throw error? Requirement says "Do NOT allow notes updates".
+        // We will just ignore the notes field for patients to be user-friendly, or strictly we could block it.
+        // Let's strictly ignore it by not setting it.
+      }
+    }
+
+    // 2. Doctor: Can only update THEIR OWN appointments
+    if (isDoctor && appointment.doctorId.toString() !== req.user._id.toString()) {
       logSecurityEvent('UNAUTHORIZED_APPOINTMENT_UPDATE', {
         userId: req.user._id,
         appointmentId: id,
@@ -180,7 +224,9 @@ exports.updateAppointmentStatus = async (req, res) => {
     const oldStatus = appointment.status; // ✅ keep before update
 
     appointment.status = status;
-    if (notes && (req.user.role === 'doctor' || req.user.role === 'admin')) {
+
+    // Only doctor/admin can update notes
+    if (notes && (isDoctor || isAdmin)) {
       appointment.notes = sanitizeInput(notes, 1000);
     }
 
@@ -193,11 +239,12 @@ exports.updateAppointmentStatus = async (req, res) => {
 
     await appointment.save();
 
-    logSecurityEvent('APPOINTMENT_STATUS_UPDATED', {
+    logSecurityEvent(isPatient ? 'APPOINTMENT_CANCELLED_BY_PATIENT' : 'APPOINTMENT_STATUS_UPDATED', {
       appointmentId: id,
       oldStatus,
       newStatus: status,
       updatedBy: req.user._id,
+      patientId: isPatient ? req.user._id : undefined, // Log patientId specifically for patient cancels
       ip: req.ip
     });
 
@@ -237,8 +284,8 @@ exports.getAppointment = async (req, res) => {
 
     // Authorization: patient can see their own, doctor can see their own, admin can see all
     const isOwner = appointment.patientId._id.toString() === req.user._id.toString() ||
-                    appointment.doctorId._id.toString() === req.user._id.toString();
-    
+      appointment.doctorId._id.toString() === req.user._id.toString();
+
     if (!isOwner && req.user.role !== 'admin') {
       logSecurityEvent('UNAUTHORIZED_APPOINTMENT_ACCESS', {
         userId: req.user._id,

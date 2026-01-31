@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 
 import api from '../services/api'
 import { useAuth } from '../context/Auth.jsx'
-import { APPOINTMENTS_ME } from '../services/endpoints'
+import { APPOINTMENTS_ME, APPOINTMENT_UPDATE_STATUS } from '../services/endpoints'
 import AppointmentCard from '../components/Clinic/AppointmentCard'
 
 export default function ClinicAppointments() {
@@ -38,7 +38,8 @@ export default function ClinicAppointments() {
           data?.appointments ||
           []
 
-        setAppointments(list)
+        // Filter out cancelled appointments
+        setAppointments(list.filter((a) => a.status !== 'cancelled'))
       } else {
         setAppointments([])
       }
@@ -48,6 +49,24 @@ export default function ClinicAppointments() {
       setAppointments([])
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleCancel = async (apt) => {
+    if (!window.confirm(`Are you sure you want to cancel your appointment with ${apt.doctor}?`)) {
+      return
+    }
+
+    try {
+      const id = apt.id || apt._id
+      await api.patch(APPOINTMENT_UPDATE_STATUS(id), { status: 'cancelled' })
+      toast.success('Appointment cancelled')
+
+      // Remove from list immediately
+      setAppointments((prev) => prev.filter((a) => (a._id || a.id) !== id))
+    } catch (err) {
+      console.error(err)
+      toast.error(err.response?.data?.message || 'Failed to cancel appointment')
     }
   }
 
@@ -92,7 +111,11 @@ export default function ClinicAppointments() {
         ) : (
           <div style={{ display: 'grid', gap: 12 }}>
             {upcoming.map((apt) => (
-              <AppointmentCard key={apt._id || apt.id} appointment={normalizeForCard(apt)} />
+              <AppointmentCard
+                key={apt._id || apt.id}
+                appointment={normalizeForCard(apt)}
+                onCancel={handleCancel}
+              />
             ))}
           </div>
         )}
@@ -139,12 +162,12 @@ function normalizeForCard(apt) {
   const datetime =
     apt?.scheduledAt
       ? new Date(apt.scheduledAt).toLocaleString('en-US', {
-          weekday: 'short',
-          month: 'short',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit'
-        })
+        weekday: 'short',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
       : 'N/A'
 
   return {

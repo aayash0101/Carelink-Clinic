@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function AppointmentCard({ appointment }) {
+export default function AppointmentCard({ appointment, onCancel }) {
   const navigate = useNavigate()
   const {
     id,
@@ -31,6 +31,16 @@ export default function AppointmentCard({ appointment }) {
       </div>
 
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        {onCancel && status !== 'cancelled' && status !== 'completed' && (
+          <button
+            className="btn btn-ghost"
+            style={{ color: '#d32f2f' }}
+            onClick={() => onCancel(appointment)}
+            title="Cancel appointment"
+          >
+            Cancel
+          </button>
+        )}
         <span className={`status-chip status-${status}`}>{String(status).replace('_', ' ')}</span>
 
         <button

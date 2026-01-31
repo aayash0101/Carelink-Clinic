@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../services/api'
-import { APPOINTMENT_DETAIL } from '../services/endpoints'
+import { APPOINTMENT_DETAIL, APPOINTMENT_UPDATE_STATUS } from '../services/endpoints'
 
 export default function AppointmentDetails() {
   const { id } = useParams()
@@ -33,6 +33,20 @@ export default function AppointmentDetails() {
     }
     if (id) run()
   }, [id])
+
+  const handleCancel = async () => {
+    if (!window.confirm('Are you sure you want to cancel this appointment?')) return
+
+    try {
+      // api instance already sends X-CSRF-Token via interceptor if cookie exists
+      await api.patch(APPOINTMENT_UPDATE_STATUS(id), { status: 'cancelled' })
+      toast.success('Appointment cancelled successfully')
+      navigate('/appointments')
+    } catch (err) {
+      console.error(err)
+      toast.error(err.response?.data?.message || 'Failed to cancel appointment')
+    }
+  }
 
   if (loading) {
     return (
@@ -77,7 +91,15 @@ export default function AppointmentDetails() {
     <div className="card">
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 20 }}>
         <h3 style={{ margin: 0 }}>Appointment Details</h3>
-        <button className="btn btn-ghost" onClick={() => navigate(-1)}>Back</button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          {/* Show Cancel button if not cancelled/completed */}
+          {apt.status !== 'cancelled' && apt.status !== 'completed' && (
+            <button className="btn btn-danger" onClick={handleCancel} style={{ backgroundColor: '#ffebee', color: '#c62828', border: '1px solid #ef9a9a' }}>
+              Cancel Appointment
+            </button>
+          )}
+          <button className="btn btn-ghost" onClick={() => navigate(-1)}>Back</button>
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>

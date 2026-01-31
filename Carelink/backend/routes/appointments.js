@@ -17,7 +17,7 @@ router.get('/me', protect, getMyAppointments);
 
 // Doctor/Admin routes (must come BEFORE "/:id")
 router.get('/doctor', protect, authorize('doctor', 'admin'), getDoctorAppointments);
-router.patch('/:id/status', protect, authorize('doctor', 'admin'), updateAppointmentStatus);
+router.patch('/:id/status', protect, updateAppointmentStatus);
 
 // Single appointment (must be LAST)
 router.get('/:id', protect, getAppointment);
